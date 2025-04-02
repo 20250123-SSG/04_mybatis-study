@@ -1,9 +1,24 @@
-package com.inyong.section01.xml;
+package com.kangbroo.section01.xml;
 
-import com.inyong.dto.MenuDto;
+import com.kangbroo.dto.MenuDto;
 import org.apache.ibatis.session.SqlSession;
 
+import java.util.List;
+
 public class MenuDao {
+
+    /*
+    * 기존의 JDBC 만으로 코딩
+    public 결과 메소드(Connection conn, 데이터) {
+        1. PreaparedStatement 생성
+        2. 파라미터 바인딩 (? 에 데이터 채우기)
+        3. sql문 실행
+        4. 결과 매핑 (rset 데이터꺼내서 dto의 필드에 담기)
+        5. 자원반납
+        6. 결과반환
+    }
+     */
+
 
     /*
         ## MyBatis 방식으로 xml파일에 작성된 sql문 실행 ##
@@ -24,13 +39,29 @@ public class MenuDao {
            전달된 데이터가 xml의 sql문에 알아서 바인딩됨 (물론 xml에서 바인딩 처리해야됨)
 
      */
-
     public int insertMenu(SqlSession sqlSession, MenuDto menu){
         return sqlSession.insert("MenuMapper.insertMenu", menu);
     }
+    public int updateMenu(SqlSession sqlSession, MenuDto menu){
+        return sqlSession.update("MenuMapper.updateMenu", menu);
+    }
+    public int deleteMenu(SqlSession sqlSession, int code){
+        return sqlSession.delete("MenuMapper.deleteMenu", code);
+    }
+    public List<String> selectMenuNameList(SqlSession sqlSession){
+        return sqlSession.selectList("MenuMapper.selectMenuNameList");
+    }
 
+    public List<MenuDto> selectOrderableMenuList(SqlSession sqlSession){
+        return sqlSession.selectList("MenuMapper.selectOrderableMenuList");
+    }
 
+    public int selectOrderableMenuCount(SqlSession sqlSession){
+        return sqlSession.selectOne("MenuMapper.selectOrderableMenuCount");
+    }
 
-
+    public MenuDto selectMenuByCode(SqlSession sqlSession, int code){
+        return sqlSession.selectOne("MenuMapper.selectMenuByCode", code);
+    }
 
 }
