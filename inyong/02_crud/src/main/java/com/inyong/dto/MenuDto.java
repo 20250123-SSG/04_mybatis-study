@@ -1,4 +1,4 @@
-package com.inyong.dto;
+package com.kangbroo.dto;
 
 public class MenuDto {
 
@@ -16,6 +16,13 @@ public class MenuDto {
         this.menuPrice = menuPrice;
         this.categoryCode = categoryCode;
         this.orderableStatus = orderableStatus;
+    }
+
+    public MenuDto(int menuCode, String menuName, int menuPrice, int categoryCode) {
+        this.menuCode = menuCode;
+        this.menuName = menuName;
+        this.menuPrice = menuPrice;
+        this.categoryCode = categoryCode;
     }
 
     public int getMenuCode() {
