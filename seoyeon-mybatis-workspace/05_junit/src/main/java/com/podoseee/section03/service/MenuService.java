@@ -48,5 +48,55 @@ public class MenuService {
     public int registMenu(MenuDto menu){
         SqlSession sqlSession = getSqlSession();
         menuMapper = sqlSession.getMapper(MenuMapper.class);
+
+        int result = 0;
+
+        try {
+            result = menuMapper.insertMenu(menu);
+            sqlSession.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            sqlSession.rollback();
+        } finally {
+            sqlSession.close();
+        }
+
+        return result;
+    }
+
+    public int modifyMenu(MenuDto menu) {
+        SqlSession sqlSession = getSqlSession();
+        menuMapper = sqlSession.getMapper(MenuMapper.class);
+
+        int result = 0;
+        try {
+            result = menuMapper.updateMenu(menu);
+            sqlSession.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            sqlSession.rollback();
+        }finally{
+            sqlSession.close();
+        }
+        return result;
+    }
+
+    public int removeMenu(int code) {
+        SqlSession sqlSession = getSqlSession();
+        menuMapper = sqlSession.getMapper(MenuMapper.class);
+
+        int result = 0;
+        try {
+            result = menuMapper.deleteMenu(code);
+            sqlSession.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            sqlSession.rollback();
+        }finally{
+            sqlSession.close();
+        }
+
+        return result;
+
     }
 }

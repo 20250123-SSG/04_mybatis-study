@@ -33,8 +33,8 @@ public class MenuView {
                 case "3": menuController.selectMenuListByCategory(inputCode("카테고리코드")); break;
                 case "4": menuController.selectSubCategoryList(); break;
                 case "5": registMenuForm();break;
-                case "6": break;
-                case "7": break;
+                case "6": modifyMenuForm(); break;
+                case "7": menuController.removeMenu(inputCode("삭제할 메뉴코드")); break;
                 case "0": return;
                 default :
                     System.out.println("메뉴를 잘못 입력하셨습니다.");
@@ -51,14 +51,14 @@ public class MenuView {
     // 신규 메뉴 등록용 폼 제공 화면
     private void registMenuForm() {
         System.out.println("\n~~~~ 등록할 메뉴 정보를 작성해주세요 ~~~~");
-        System.out.println("> 메뉴명: ");
+        System.out.print("> 메뉴명: ");
         String menuName = sc.nextLine();
-        System.out.println("> 메뉴가격: ");
+        System.out.print("> 메뉴가격: ");
         String menuPrice = sc.nextLine();
-        System.out.println("> 카테고리코드: ");
+        System.out.print("> 카테고리코드: ");
         menuController.selectSubCategoryList(); // 카테고리 목록 출력해주기
         String categoryCode = sc.nextLine();
-        System.out.println("> 주문가능여부(Y/N): ");
+        System.out.print("> 주문가능여부(Y/N): ");
         String orderableStatus = sc.nextLine().toUpperCase();
 
         Map<String, String> requestParam = Map.of(
@@ -68,18 +68,35 @@ public class MenuView {
                 "orderable", orderableStatus
         );
 
-        menuController.registMenu(Map<String, String> requestParam){
+        menuController.registMenu(requestParam);
             // 요청시 전달된 데이터 => MenuDto 옮기기
-            MenuDto menu = MenuDto.builder()
-                    .menuName(requestParam.get("name"))
-                    .menuPrice(Integer.parseInt(requestParam.get("price"))
-                    .categoryCode(Integer.parseInt(requestParam.get("category"))
-                    .orderableStatus(requestParam.get("orderable"))
-                    .build();
 
-            int result = menuService.registMenu(menu);
-        }
     }
 
+    // 기존 메뉴 수정용 폼 제공 화면
+    private void modifyMenuForm() {
+        System.out.println("\n~~~~ 수정할 메뉴 정보를 작성해주세요 ~~~~");
+        System.out.println("> 메뉴코드: ");
+        String menuCode = sc.nextLine();
+        System.out.println("> 수정정보(메뉴명): ");
+        String menuName = sc.nextLine();
+        System.out.println("> 수정정보(가격): ");
+        String menuPrice = sc.nextLine();
+        System.out.println("> 수정정보(카테고리): ");
+        menuController.selectSubCategoryList();
+        String categoryCode = sc.nextLine();
+        System.out.println("> 수정정보(주문가능여부): ");
+        String orderableStatus = sc.nextLine().toUpperCase();
+
+        Map<String, String> requestParam = Map.of(
+                "code", menuCode,
+                "name", menuName,
+                "price", menuPrice,
+                "category", categoryCode,
+                "orderable", orderableStatus
+        );
+
+        menuController.modifyMenu(requestParam);
+    }
 
 }
