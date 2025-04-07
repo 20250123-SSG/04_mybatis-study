@@ -1,4 +1,4 @@
-package com.kangbroo.section01.xml;
+package com.kangbroo.section03.common;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -15,7 +15,7 @@ public class Template {
     public static SqlSession getSqlSession(){
         if(sqlSessionFactory == null){
             try {
-                InputStream inputStream = Resources.getResourceAsStream("section01/xml/mybatis-config.xml");
+                InputStream inputStream = Resources.getResourceAsStream("config/mybatis-config.xml");
                 sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -24,6 +24,5 @@ public class Template {
 
         return sqlSessionFactory.openSession(false);
     }
-
 
 }
